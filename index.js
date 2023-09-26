@@ -8,12 +8,11 @@ const arbitrator_profile= require("./models/arbitrator_profile.js");
 const document_writer_profile= require("./models/document_writer_profile.js");
 const mediator_profile= require("./models/mediator_profile.js");
 const notary_profile= require("./models/notary_profile.js");
+
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({extended: true}));
-
-
 
 main()
     .then(()=>{
@@ -22,15 +21,13 @@ main()
     .catch(err => console.log(err));
 
 async function main() {
-  await mongoose.connect('mongodb+srv://abc:abc@sih.xvuhzbg.mongodb.net/?retryWrites=true&w=majority');
+  await mongoose.connect('mongodb://127.0.0.1:27017/services');
 }
 
-// Index Route for Client
+//Index Route for Client
 // app.get("/client_login", async(req, res)=>{
 //     let email
 // })
-
-
 
 
 //Client side Work
@@ -39,16 +36,15 @@ app.get("/client/old_client", (req, res) => {
 });
 
 app.post("/client/new_client", (req, res)=>{
-    let {username, first_name, last_name, phone_no, email_addr, age, aadhar_no, password}=req.body;
+    let {first_name, last_name, phone_no, email_addr, age, aadhar_no, case_requirement}=req.body;
     let newID=new client_profile({
-        username: username,
         first_name: first_name,
         last_name: last_name,
         phone_no: phone_no,
         email_addr: email_addr,
         age: age,
         aadhar_no: aadhar_no,
-        password:password,
+        case_requirement: case_requirement,
     });
     newID.
         save().
@@ -57,18 +53,12 @@ app.post("/client/new_client", (req, res)=>{
     })
     .catch((err)=>{
         console.log(err);
-    });    
-    res.redirect("/client/new_client");
+    });
 });
 
 app.get("/client/new_client", (req, res) => {
     res.render("new_client.ejs");
 });
-
-app.get("/client", (req, res)=>{
-    res.render("client.ejs");
-});
-
 
 //Service Provider work
 app.get("/service_provider/new_service_provider", (req, res)=>{
@@ -119,13 +109,6 @@ app.post("/service_provider/login", async (req, res) => {
     }
   });
   
-  
-  
-
-app.get("/service_provider", (req, res)=>{
-    res.render("service_provider.ejs");
-});
-
 app.get("/service_provider/new_advocate", (req, res)=>{
     res.render("new_advocate.ejs");
 });
