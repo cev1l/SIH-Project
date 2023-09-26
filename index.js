@@ -58,10 +58,6 @@ app.get("/client/new_client", (req, res) => {
     res.render("new_client.ejs");
 });
 
-app.get("/client", (req, res)=>{
-    res.render("client.ejs");
-});
-
 
 
 
@@ -112,10 +108,16 @@ app.post("/service_provider/login", async (req, res) => {
       });
     }
   });
-  
-app.get("/service_provider", (req, res)=>{
-    res.render("service_provider.ejs");
+
+app.post("/client/new-client/recommendation", (req, res)=>{
+    console.log(req.body);
+    res.redirect("/client/new-client/recommendation");
 });
+
+app.get("/client/new-client/recommendation", (req, res)=>{
+    
+    res.render("old_client_recommendation.ejs");
+})
 
 app.get("/service_provider/new_advocate", (req, res)=>{
     res.render("new_advocate.ejs");
