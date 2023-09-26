@@ -57,7 +57,8 @@ app.post("/client/new_client", (req, res)=>{
     })
     .catch((err)=>{
         console.log(err);
-    });
+    });    
+    res.redirect("/client/new_client");
 });
 
 app.get("/client/new_client", (req, res) => {
