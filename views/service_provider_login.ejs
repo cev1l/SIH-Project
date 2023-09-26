@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <style>
+    form {
+      width: 300px;
+      margin: 0 auto;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+
+    button {
+      background-color: #000;
+      color: #fff;
+      padding: 10px;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <h2>Welcome Back Chief</h2>
+  <form action="/service_provider/login" method="POST">
+    <label for="username">Username</label>
+    <input type="text" name="username" id="username" placeholder="Username">
+    <br/>
+
+    <label for="password">Password</label>
+    <input type="password" name="password" id="password" placeholder="Password">
+    <br/>
+
+    <button type="submit">Login</button>
+  </form>
+</body>
+</html>
