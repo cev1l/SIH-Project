@@ -8,12 +8,10 @@ const arbitrator_profile= require("./models/arbitrator_profile.js");
 const document_writer_profile= require("./models/document_writer_profile.js");
 const mediator_profile= require("./models/mediator_profile.js");
 const notary_profile= require("./models/notary_profile.js");
-
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({extended: true}));
-
 main()
     .then(()=>{
         console.log("Connection succcessfull");
@@ -21,13 +19,11 @@ main()
     .catch(err => console.log(err));
 
 async function main() {
-  await mongoose.connect('mongodb://127.0.0.1:27017/services');
+  await mongoose.connect('mongodb+srv://abc:abc@sih.xvuhzbg.mongodb.net/?retryWrites=true&w=majority');
 }
 
-//Index Route for Client
-// app.get("/client_login", async(req, res)=>{
-//     let email
-// })
+
+
 
 
 //Client side Work
@@ -36,15 +32,16 @@ app.get("/client/old_client", (req, res) => {
 });
 
 app.post("/client/new_client", (req, res)=>{
-    let {first_name, last_name, phone_no, email_addr, age, aadhar_no, case_requirement}=req.body;
+    let {username, first_name, last_name, phone_no, email_addr, age, aadhar_no, password}=req.body;
     let newID=new client_profile({
+        username: username,
         first_name: first_name,
         last_name: last_name,
         phone_no: phone_no,
         email_addr: email_addr,
         age: age,
         aadhar_no: aadhar_no,
-        case_requirement: case_requirement,
+        password:password,
     });
     newID.
         save().
@@ -53,12 +50,23 @@ app.post("/client/new_client", (req, res)=>{
     })
     .catch((err)=>{
         console.log(err);
-    });
+    });    
+    res.redirect("/client/new_client");
 });
 
 app.get("/client/new_client", (req, res) => {
     res.render("new_client.ejs");
 });
+
+app.get("/client", (req, res)=>{
+    res.render("client.ejs");
+});
+
+
+
+
+
+
 
 //Service Provider work
 app.get("/service_provider/new_service_provider", (req, res)=>{
@@ -89,8 +97,6 @@ app.post("/service_provider/login", async (req, res) => {
     ) {
       return res.redirect("/service_provider/new_service_provider");
     }
-  
-    // Check if the password is correct.
     if (
       (advocateProfile && (await advocate_profile.findOne({password}))) ||
       (arbitratorProfile && (await arbitrator_profile.findOne({password}))) ||
@@ -98,8 +104,6 @@ app.post("/service_provider/login", async (req, res) => {
       (mediatorProfile && (await mediator_profile.findOne({password}))) ||
       (notaryProfile && (await notary_profile.findOne({password})))
     ) {
-      // If the password is correct, log the user in and redirect them to the profile page.
-    //   req.session.user = advocateProfile || arbitratorProfile || documentWriterProfile || mediatorProfile || notaryProfile;
       res.redirect("/profile");
     } else {
       // If the password is incorrect, send an error message to the user.
@@ -109,6 +113,10 @@ app.post("/service_provider/login", async (req, res) => {
     }
   });
   
+app.get("/service_provider", (req, res)=>{
+    res.render("service_provider.ejs");
+});
+
 app.get("/service_provider/new_advocate", (req, res)=>{
     res.render("new_advocate.ejs");
 });
@@ -134,6 +142,7 @@ app.post("/service_provider/new_advocate", (req, res)=>{
     .catch((err)=>{
         console.log(err);
     });
+    res.redirect("/service_provider");
 });
 
 app.get("/service_provider/new_arbitrator", (req, res)=>{
@@ -161,6 +170,7 @@ app.post("/service_provider/new_arbitrator", (req, res)=>{
     .catch((err)=>{
         console.log(err);
     });
+    res.redirect("/service_provider");
 });
 
 app.get("/service_provider/new_document_writer", (req, res)=>{
@@ -188,6 +198,7 @@ app.post("/service_provider/new_document_writer", (req, res)=>{
     .catch((err)=>{
         console.log(err);
     });
+    res.redirect("/service_provider");
 });
 
 app.get("/service_provider/new_mediator", (req, res)=>{
@@ -215,6 +226,7 @@ app.post("/service_provider/new_mediator", (req, res)=>{
     .catch((err)=>{
         console.log(err);
     });
+    res.redirect("/service_provider");
 });
 
 app.get("/service_provider/new_notary", (req, res)=>{
@@ -242,6 +254,7 @@ app.post("/service_provider/new_notary", (req, res)=>{
     .catch((err)=>{
         console.log(err);
     });
+    res.redirect("/service_provider");
 });
 
 app.get("/", (req, res)=>{
