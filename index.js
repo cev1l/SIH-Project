@@ -9,6 +9,7 @@ const document_writer_profile= require("./models/document_writer_profile.js");
 const mediator_profile= require("./models/mediator_profile.js");
 const notary_profile= require("./models/notary_profile.js");
 
+const chacha="BC"
 
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
