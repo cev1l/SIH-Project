@@ -8,11 +8,12 @@ const arbitrator_profile= require("./models/arbitrator_profile.js");
 const document_writer_profile= require("./models/document_writer_profile.js");
 const mediator_profile= require("./models/mediator_profile.js");
 const notary_profile= require("./models/notary_profile.js");
-
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({extended: true}));
+
+
 
 main()
     .then(()=>{
@@ -21,13 +22,15 @@ main()
     .catch(err => console.log(err));
 
 async function main() {
-  await mongoose.connect('mongodb://127.0.0.1:27017/services');
+  await mongoose.connect('mongodb+srv://abc:abc@sih.xvuhzbg.mongodb.net/?retryWrites=true&w=majority');
 }
 
-//Index Route for Client
+// Index Route for Client
 // app.get("/client_login", async(req, res)=>{
 //     let email
 // })
+
+
 
 
 //Client side Work
@@ -36,15 +39,16 @@ app.get("/client/old_client", (req, res) => {
 });
 
 app.post("/client/new_client", (req, res)=>{
-    let {first_name, last_name, phone_no, email_addr, age, aadhar_no, case_requirement}=req.body;
+    let {username, first_name, last_name, phone_no, email_addr, age, aadhar_no, password}=req.body;
     let newID=new client_profile({
+        username: username,
         first_name: first_name,
         last_name: last_name,
         phone_no: phone_no,
         email_addr: email_addr,
         age: age,
         aadhar_no: aadhar_no,
-        case_requirement: case_requirement,
+        password:password,
     });
     newID.
         save().
